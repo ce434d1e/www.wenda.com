@@ -96,4 +96,5 @@ class User extends Model
         $md5=md5($md5.'__987__');
         return $md5;
     }
+
 }

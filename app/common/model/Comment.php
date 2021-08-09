@@ -43,8 +43,8 @@ class Comment extends Model
 		$where['comment_reply_id']=0;
 
 		$select_sql='';
-		if(!empty($GLOBALS['user_id'])){
-			$select_sql=",(SELECT count(*) FROM app_like WHERE like_user_id = ".$GLOBALS['user_id']." AND like_type = 'comment_zan' AND like_action_id = c.comment_id and user_status=1) as comment_is_zan";
+		if(!empty($_SERVER['user_id'])){
+			$select_sql=",(SELECT count(*) FROM `like` WHERE like_user_id = ".$_SERVER['user_id']." AND like_type = 'comment_zan' AND like_action_id = c.comment_id and user_status=1) as comment_is_zan";
 		}
 		$res=$this->alias('c')
 			->where($where)
@@ -69,8 +69,8 @@ class Comment extends Model
 		$where['comment_status']=1;
 
 		$select_sql='';
-		if(!empty($GLOBALS['user_id'])){
-			$select_sql=",(SELECT count(*) FROM app_like WHERE like_user_id = ".$GLOBALS['user_id']." AND like_type = 'comment_zan' AND like_action_id = c.comment_id and user_status=1) as comment_is_zan";
+		if(!empty($_SERVER['user_id'])){
+			$select_sql=",(SELECT count(*) FROM `like` WHERE like_user_id = ".$_SERVER['user_id']." AND like_type = 'comment_zan' AND like_action_id = c.comment_id and user_status=1) as comment_is_zan";
 		}
 		$res=$this->alias('c')
 			->where($where)
@@ -93,8 +93,8 @@ class Comment extends Model
 	//根据评论ID返回数据 并返回用户信息
 	public function getComment($comment_id,$comment_status=1){
 		$select_sql='';
-		if(!empty($GLOBALS['user_id'])){
-			$select_sql=",(SELECT count(*) FROM app_like WHERE like_user_id = ".$GLOBALS['user_id']." AND like_type = 'comment_zan' AND like_action_id = c.comment_id and user_status=1) as comment_is_zan";
+		if(!empty($_SERVER['user_id'])){
+			$select_sql=",(SELECT count(*) FROM `like` WHERE like_user_id = ".$_SERVER['user_id']." AND like_type = 'comment_zan' AND like_action_id = c.comment_id and user_status=1) as comment_is_zan";
 		}
 		return $this->alias('c')
 			->where(['comment_id'=>$comment_id,'comment_status'=>$comment_status])
@@ -114,8 +114,8 @@ class Comment extends Model
 	//获取评论的子例表 用于例表显示
 	public function getCommentChild($comment_id,$option=['limit'=>1]){
 		$select_sql='';
-		if(!empty($GLOBALS['user_id'])){
-			$select_sql=",(SELECT count(*) FROM app_like WHERE like_user_id = ".$GLOBALS['user_id']." AND like_type = 'comment_zan' AND like_action_id = c.comment_id and user_status=1) as commment_is_zan";
+		if(!empty($_SERVER['user_id'])){
+			$select_sql=",(SELECT count(*) FROM `like` WHERE like_user_id = ".$_SERVER['user_id']." AND like_type = 'comment_zan' AND like_action_id = c.comment_id and user_status=1) as commment_is_zan";
 		}
 		$r_sql=$this->alias('c')
 			->where(['comment_reply_id'=>$comment_id,'comment_status'=>1])

@@ -66,7 +66,10 @@ class Add{
         $mComment=new mComment();
         $comment_res=$mComment->insert($data);
 
-        var_dump($comment_res);
-
+        if ($comment_res) {
+            return $this->error('发布成功',"/ask/{$data['comment_post_id']}.html");
+        }else{
+            return $this->error('发布失败');
+        }
     }
 }

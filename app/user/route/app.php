@@ -7,3 +7,4 @@ Route::get('/',function(){
 
 // Route::rule('user/:id','user/index','GET');
 Route::rule('test','Test/index','GET');
+Route::rule('img','Img/index','GET');

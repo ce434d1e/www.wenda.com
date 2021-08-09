@@ -16,7 +16,7 @@
 				{if condition="count($post.post_tags_list)"}
 				<div class="tags">
 					{foreach name="post.post_tags_list" item="vo" key="k" }
-						<a href="/ask/tags/{$vo}.html">{$vo}</a>
+					<a href="/ask/tags/{$vo}.html">{$vo}</a>
 					{/foreach}
 				</div>
 				{/if}
@@ -37,32 +37,42 @@
 			</form>
 			<br>
 			{/if}
-
 			<div class="spm">
 				<h3>最佳回答</h3>
 				<div class="info2">
-					<div class="author"><img src="http://wz01.hnysnet.com/zb_users/avatar/0.png" alt="admin">
-						<p class="aut">admin </p>
-						<p>推荐于：2019-11-08</p>
+					<div class="author"><img src="{$comment_list[0]['user_img']}">
+						<p class="aut">{$comment_list[0]['user_nickname']}</p>
+						<p>回答于：{$comment_list[0]['comment_create_times']|diyDate}</p>
 					</div>
 					<div class="zjhd"><span class="iconfont">&#xe716;</span></div>
 				</div>
 				<div class="clear"></div>
-				<div class="zhengwen">
-					<p style="text-align: left; text-indent: 2em;"><span style="color: #595959;">你好！我们推荐你使用我们的《<a href="https://app.zblogcn.com/?id=2083" target="_blank" title="网赚、知识问答网站|响应式主题模板" style="color: rgb(84, 141, 212); text-decoration: underline;"><strong><span style="color: #548DD4;">网赚、知识问答网站主题模板</span></strong></a>》搭建一个网站。</span></p>
-					<p style="text-align: left; text-indent: 2em;"><span style="color: #595959;">常见的推广网赚项目之类的网站经常是以论坛或者博客的形式存在的，而以“<strong>问答</strong>”的形式做推广的网页更加有说服力。</span></p>
-					<p style="text-align: left; text-indent: 2em;"><span style="color: #595959;">你可能已经注意到我们的网站首页展示了一篇“<strong>有问有答</strong>”的文章，也就是你当前游览的这个问答版块。</span></p>
-					<p style="text-align: left; text-indent: 2em;"><span style="color: #595959;">首页这一篇文章就好比整个网站的“<strong>核心话题</strong>”，整站网站的内容都在围绕着这个“核心话题”作出回答，而且不管是问答版块下方的最新更新版块还是右侧栏的文章列表版块，都是与这个“核心话题”相关的内容。</span></p>
-					<h3>那么，这样做就产生了以下几点好处：</h3>
-					<p style="text-align: left; text-indent: 2em;"><span style="color: #548DD4;">1、网站简单大气、定位明确，架构清晰，站长和用户都很明白网站要做什么，使你付出更少的时间和精力维护网站；</span></p>
-					<p style="text-align: left; text-indent: 2em;"><span style="color: #548DD4;">2、网站做一个主关键词（即核心话题），同时再围绕主关键词延申更多的长尾词，且对排名有利；</span></p>
-					<p style="text-align: left; text-indent: 2em;"><span style="color: #548DD4;">3、首页即项目，首页即业务！</span></p>
-					<p style="text-align: left; text-indent: 2em;"><span style="color: #595959;">ps：当然这样并非很大众化的设计，也许只有少部分的站长会喜欢，希望刚好能帮到你！</span></p>
-				</div>
-				<div class="wzpl">
-					<p>本文共有<span>12</span>人参与回答，<a href="http://wz01.hnysnet.com/post/35.html#">点击这里发表你的个人建议吧！</a></p>
+				<div class="zhengwen"><?php echo $comment_list[0]['comment_content']; ?></div>
+				<br>
+			</div>
+
+			<div class="spm">
+				<h3>最新回答<span>共有{:count($comment_list)}条回答</span></h3>
+				<div class="comlist">
+					{foreach name="$comment_list" item="vo" key="k" }
+					<ul class="{if condition='$k==0'}bordertop{/if}">
+						<li>
+							<img src="{$vo.user_img}">
+							<div class="clbody">
+								<div class="cinfo">
+									<a rel="nofollow">
+										<h5>{$vo.user_nickname}</h5>
+									</a>
+								</div>
+								<em>{$vo.comment_create_times|diyDate}</em>
+								<?php echo $vo['comment_content']; ?>
+							</div>
+						</li>
+					</ul>
+					{/foreach}
 				</div>
 			</div>
+
 			<div class="spm">
 				<h3>最近更新</h3>
 				<ul class="postlist" id="divMain">

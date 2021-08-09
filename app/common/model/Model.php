@@ -40,4 +40,17 @@ class Model extends Models
         
     }
 
+    public function getUserImgAttr($value){
+        if((int)$value==$value){
+            return '/public/user/avatar/'.$value.'.jpg';
+        }
+        return $value;
+    }
+
+    public function getCommentContentAttr($value){
+        $er=explode("\n",$value);
+        $erp=implode("</p><p>",$er);
+        $err='<p>'.$erp.'</p>';
+        return $err;
+    }
 }
