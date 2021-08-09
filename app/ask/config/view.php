@@ -1,7 +1,5 @@
 <?php
 return [
-    'template'  =>  [
-        'layout_on'     =>  true,
-        'layout_name'   =>  'layout/layoutname',
-    ]
+    'layout_on'     =>  false,
+    'layout_name'   =>  'layout\layout',
 ];

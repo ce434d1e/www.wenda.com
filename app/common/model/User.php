@@ -58,41 +58,6 @@ class User extends Model
     	return $this->cache('user_'.$where['user_id'])->where($where)->update($data);
     }
 
-    //批量查询数据
-    public function query($where=[],$options=[]){
-    	if(isset($options['count'])){
-    		return $this->where($where)->count();
-    	}else{
-            if(empty($options['page'])){
-                $options['page']=1;
-            }
-            $res=$this->where($where)->page($options['page'],config("app.limit"));
-            //查询字段
-            if(!empty($options['append'])){
-                $res->append($options['append']);
-            }
-            if(!empty($options['visible'])){
-                $res->visible($options['visible']);
-            }
-            if(!empty($options['pages'])){
-                $res->page($options['pages'],config("app.pages"));
-            }
-    		return $res->select()->toArray();
-    	}
-    }
-
-    //搜索用户
-    public function search($option=[]){
-        return $this->whereOr([
-                ['user_nickname','like',"%".$option['key']."%"],
-            ])
-            ->where(['user_status'=>1])
-            ->page($option['page'],config("app.limit"))
-            ->field('user_img,user_nickname,user_id,user_fan,user_zan,user_post')
-            ->select()
-            ->toArray();
-    }
-
     //重新设置某个用户的赞的数量
     public function updateZanNumber($user_id){
         //获取评论的总数量
@@ -111,8 +76,8 @@ class User extends Model
     }
 
     //从数据库中随机获取一个小号
-    public function rand_user_vest(){
-        $user=$this->where(['user_type'=>5])->orderRand()->limit(1)->select()->toArray();
+    public function rand_user(){
+        $user=$this->where(['user_type'=>'xiaohao'])->orderRand()->limit(1)->select()->toArray();
         if(!count($user)){
             return 5;
         }else{

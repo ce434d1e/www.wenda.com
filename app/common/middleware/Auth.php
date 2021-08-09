@@ -24,7 +24,6 @@ class Auth{
                 $_SERVER['user']=$user_res;
             }
         }
-
         return $next($request);
     }
 }
