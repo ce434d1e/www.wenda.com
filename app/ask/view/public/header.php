@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <meta name="renderer" content="webkit">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <title>Z-blogPHP响应式网赚项目、知识问答网站主题</title>
 <meta name="Keywords" content="网赚主题,网赚项目,知识分享,问答网站,响应式" />
 <meta name="description" content="使用网赚项目问答的形式帮助网赚类网站突出重点，也可以做一个知识问答分享类的网站。自适应主题模板，支持手机、平板和电脑访问！" />
@@ -22,7 +22,7 @@
         </div>
         <div class="nav">
             <ul>
-                <li><a href="/sign/login">首页</a></li>
+                <li><a href="/">首页</a></li>
             </ul>
             {if condition="$_SERVER['user_id']"}
             <ul>

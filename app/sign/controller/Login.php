@@ -37,7 +37,7 @@ class Login{
 
             $token=md5($user_res['user_id'].time());
 
-            cookie("user_token",$token);
+            cookie("user_token",$token,15*86400);
             cache('user_token_'.$token,$user_res,15*86400);
 
             return $this->success('登录成功','/');

@@ -7,7 +7,7 @@ use app\common\model\Comment as mComment;
 class Index{
     public function index(){
         $mPost=new mPost();
-        $lists=$mPost->alias('p')->where(['post_status' => 1])->join('user u', 'u.user_id = p.post_user_id and u.user_status=1')->limit(1)->select()->toArray();
+        $lists=$mPost->alias('p')->where(['post_status' => 1])->join('user u', 'u.user_id = p.post_user_id and u.user_status=1')->limit(25)->select()->toArray();
 
         View::assign([
             'lists'  => $lists,
@@ -18,7 +18,7 @@ class Index{
 
     public function unanswered(){
         $mPost=new mPost();
-        $lists=$mPost->alias('p')->where(['post_status' => 0])->join('user u', 'u.user_id = p.post_user_id and u.user_status=1')->limit(1)->select()->toArray();
+        $lists=$mPost->alias('p')->where(['post_status' => 0])->join('user u', 'u.user_id = p.post_user_id and u.user_status=1')->limit(25)->select()->toArray();
 
         View::assign([
             'lists'  => $lists,

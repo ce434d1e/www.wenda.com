@@ -41,6 +41,12 @@ class Add{
             }
 
             $mPost = new mPost();
+            //判断数据库中标题是否已经存在
+            $has_title=$mPost->where(['post_title'=>$data['post_title']])->count();
+            if($has_title){
+                return $this->error('禁止发布相同标题');
+            }
+            
             $res = $mPost->insert($data);
 
             if ($res) {

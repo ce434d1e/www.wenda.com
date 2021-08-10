@@ -13,9 +13,9 @@
 					<p><span style="color: #595959;">{$post.post_body}</span></p>
 				</div>
 				{/if}
-				{if condition="count($post.post_tags_list)"}
+				{if condition="count($post.post_tags)"}
 				<div class="tags">
-					{foreach name="post.post_tags_list" item="vo" key="k" }
+					{foreach name="post.post_tags" item="vo" key="k" }
 					<a href="/ask/tags/{$vo}.html">{$vo}</a>
 					{/foreach}
 				</div>
@@ -26,17 +26,14 @@
 			<link rel="stylesheet" type="text/css" href="/public/ask/css/add.css">
 			<form id="form_add" style="padding: 0px;" method="post" action="/ask/add/comment">
 				<input type="hidden" name="comment_post_id" value="{$post.post_id}">
-				<textarea style="min-height: 200px;" name="comment_body">夺标
-所发生 栽植 
-霸
-所发生地
-茜</textarea>
+				<textarea style="min-height: 200px;" name="comment_body"></textarea>
 				<br>
 				<br>
 				<button>提交</button>
 			</form>
 			<br>
 			{/if}
+			<?php if(count($comment_list)){ ?>
 			<div class="spm">
 				<h3>最佳回答</h3>
 				<div class="info2">
@@ -50,6 +47,7 @@
 				<div class="zhengwen"><?php echo $comment_list[0]['comment_content']; ?></div>
 				<br>
 			</div>
+			
 
 			<div class="spm">
 				<h3>最新回答<span>共有{:count($comment_list)}条回答</span></h3>
@@ -72,6 +70,8 @@
 					{/foreach}
 				</div>
 			</div>
+
+			<?php } ?>
 
 			<div class="spm">
 				<h3>最近更新</h3>
