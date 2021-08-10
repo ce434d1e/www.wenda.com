@@ -37,7 +37,7 @@ class User extends Model
             $data['user_nickname']='昵称_'.substr(md5(rand(0,9999).time()),0,6);
         }
         
-        $data['user_img']=rand(1,1000);
+        $data['user_img']=rand(1,1238);
 		$this->save($data);
 		return $this->user_id;
 	}

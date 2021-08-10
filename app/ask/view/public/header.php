@@ -16,24 +16,24 @@
 <header>
     <div class="mw1024">
         <div class="logo">
-            <a href="http://wz01.hnysnet.com/">
+            <a href="/">
                 <img src="http://wz01.hnysnet.com/zb_users/theme/hnyswz/style/logo.png" alt="响应式首页问答网赚主题">
             </a>
         </div>
         <div class="nav">
+            <ul>
+                <li><a href="/sign/login">首页</a></li>
+            </ul>
             {if condition="$_SERVER['user_id']"}
             <ul>
-                <li><a href="/ask/add">发布</a>
-                </li>
-                <li><a href="/user/">个人中心</a>
-                </li>
+                <li><a href="/ask/unanswered">未回复</a></li>
+                <li><a href="/ask/add">发布</a></li>
+                <li><a href="/user/">个人中心</a></li>
             </ul>
             {else /}
             <ul>
-                <li><a href="/sign/login">登录</a>
-                </li>
-                <li><a href="/sign/reg">注册</a>
-                </li>
+                <li><a href="/sign/login">登录</a></li>
+                <li><a href="/sign/reg">注册</a></li>
             </ul>
             {/if}
         </div>

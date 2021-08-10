@@ -15,10 +15,6 @@ class Post{
         }
         $post=$post[0];
 
-        //标签处理
-        $tags=array_filter(explode(",",$post['post_tags']));
-        $post['post_tags_list']=$tags;
-
         //获取评论
         $mComment=new mComment();
         $comment_list=$mComment->getCommentChildList(['comment_post_id'=>$id],['pages'=>1]);

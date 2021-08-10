@@ -47,10 +47,17 @@ class Model extends Models
         return $value;
     }
 
+    //评论内容换行
     public function getCommentContentAttr($value){
         $er=explode("\n",$value);
         $erp=implode("</p><p>",$er);
         $err='<p>'.$erp.'</p>';
         return $err;
+    }
+
+    //文章tags标签换成数组
+    public function getPostTagsAttr($value){
+        $tags=array_filter(explode(",",$value));
+        return $tags;
     }
 }
