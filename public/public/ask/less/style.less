@@ -509,11 +509,20 @@ header {
 }
 
 .wzright ul li a {
-    color: #0069cc
+    color: #0069cc;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 240px;
+    display: inline-block;
 }
 
 .wzright ul li a:hover {
     text-decoration: underline
+}
+
+.wzright .hottags a{
+    display: inline;
 }
 
 .r-ai img {

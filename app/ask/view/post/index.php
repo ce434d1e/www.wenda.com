@@ -1,4 +1,8 @@
 {layout name="layout\layout" /}
+<?php
+$rightController = new app\ask\controller\Right;
+$postRelated = $rightController->postRelated($post['post_tags']);
+?>
 
 <div class="clear"></div>
 
@@ -13,10 +17,10 @@
 					<p><span style="color: #595959;">{$post.post_body}</span></p>
 				</div>
 				{/if}
-				{if condition="count($post.post_tags)"}
+				{if condition="count($post.post_tags['list'])"}
 				<div class="tags">
-					{foreach name="post.post_tags" item="vo" key="k" }
-					<a href="/ask/tags/{$vo}.html">{$vo}</a>
+					{foreach name="post.post_tags['list']" item="vo" key="k" }
+					<a href="/ask/tags/{$vo.tags_id}.html">{$vo.tags_name}</a>
 					{/foreach}
 				</div>
 				{/if}
@@ -33,103 +37,61 @@
 			</form>
 			<br>
 			{/if}
-			<?php if(count($comment_list)){ ?>
-			<div class="spm">
-				<h3>最佳回答</h3>
-				<div class="info2">
-					<div class="author"><img src="{$comment_list[0]['user_img']}">
-						<p class="aut">{$comment_list[0]['user_nickname']}</p>
-						<p>回答于：{$comment_list[0]['comment_create_times']|diyDate}</p>
+			<?php if (count($comment_list)) { ?>
+				<div class="spm">
+					<h3>最佳回答</h3>
+					<div class="info2">
+						<div class="author"><img src="{$comment_list[0]['user_img']}">
+							<p class="aut">{$comment_list[0]['user_nickname']}</p>
+							<p>回答于：{$comment_list[0]['comment_create_times']|diyDate}</p>
+						</div>
+						<div class="zjhd"><span class="iconfont">&#xe716;</span></div>
 					</div>
-					<div class="zjhd"><span class="iconfont">&#xe716;</span></div>
+					<div class="clear"></div>
+					<div class="zhengwen"><?php echo $comment_list[0]['comment_content']; ?></div>
+					<br>
 				</div>
-				<div class="clear"></div>
-				<div class="zhengwen"><?php echo $comment_list[0]['comment_content']; ?></div>
-				<br>
-			</div>
-			
-
-			<div class="spm">
-				<h3>最新回答<span>共有{:count($comment_list)}条回答</span></h3>
-				<div class="comlist">
-					{foreach name="$comment_list" item="vo" key="k" }
-					<ul class="{if condition='$k==0'}bordertop{/if}">
-						<li>
-							<img src="{$vo.user_img}">
-							<div class="clbody">
-								<div class="cinfo">
-									<a rel="nofollow">
-										<h5>{$vo.user_nickname}</h5>
-									</a>
+			<?php } ?>
+			<?php if (count($comment_list) > 1) { ?>
+				<div class="spm">
+					<h3>最新回答<span>共有{:count($comment_list)}条回答</span></h3>
+					<div class="comlist">
+						{foreach name="$comment_list" offset="1" item="vo" key="k" }
+						<ul class="{if condition='$k==0'}bordertop{/if}">
+							<li>
+								<img src="{$vo.user_img}">
+								<div class="clbody">
+									<div class="cinfo">
+										<a rel="nofollow">
+											<h5>{$vo.user_nickname}</h5>
+										</a>
+									</div>
+									<em>{$vo.comment_create_times|diyDate}</em>
+									<?php echo $vo['comment_content']; ?>
 								</div>
-								<em>{$vo.comment_create_times|diyDate}</em>
-								<?php echo $vo['comment_content']; ?>
-							</div>
-						</li>
-					</ul>
-					{/foreach}
+							</li>
+						</ul>
+						{/foreach}
+					</div>
 				</div>
-			</div>
-
 			<?php } ?>
 
 			<div class="spm">
-				<h3>最近更新</h3>
+				<h3>相关问答</h3>
 				<ul class="postlist" id="divMain">
+					{foreach name="$post_tags_list" item="vo" key="k" }
 					<li>
-						<h2><span>置顶</span><a href="http://wz01.hnysnet.com/post/35.html" title="怎么做一个推广网赚项目的网站？">怎么做一个推广网赚项目的网站？</a></h2>
-						<p><span><a href="http://wz01.hnysnet.com/category-2.html" title="网上赚钱方法">网上赚钱方法</a></span><span>时间：2年前</span><span>阅读：1967</span><span class="iconfont">&#xe610;&nbsp;12条回答</span></p>
+						<h2><a href="/ask/{$vo['post_id']}.html">{$vo.post_title}</a></h2>
+						<p><span>
+								{if condition="count($vo.post_tags['list'])"}
+								{foreach name="$vo.post_tags['list']" item="vo2" key="k2" }
+								<a href="/ask/tags/{$vo2.tags_id}.html" target="_blank">{$vo2.tags_name}</a>
+								{/foreach}
+								{/if}
+							</span><span>时间：{$vo['post_create_times']|diyDate}</span><span>阅读：{$vo['post_view']}</span><span class="iconfont">&#xe610;&nbsp;{$vo['post_comment']}条回答</span></p>
 					</li>
-					<li>
-						<h2><a href="http://wz01.hnysnet.com/post/65.html" title="1111111111">1111111111</a></h2>
-						<p><span><a href="http://wz01.hnysnet.com/category-1.html" title="在家赚钱方法">在家赚钱方法</a></span><span>时间：7个月前</span><span>阅读：330</span><span class="iconfont">&#xe610;&nbsp;2条回答</span></p>
-					</li>
-					<li>
-						<h2><a href="http://wz01.hnysnet.com/post/53.html" title="12312312312">12312312312</a></h2>
-						<p><span><a href="http://wz01.hnysnet.com/category-1.html" title="在家赚钱方法">在家赚钱方法</a></span><span>时间：12个月前</span><span>阅读：450</span><span class="iconfont">&#xe610;&nbsp;3条回答</span></p>
-					</li>
-					<li>
-						<h2><a href="http://wz01.hnysnet.com/post/44.html" title="文章中巧用H3 H4标签，显示的特殊效果">文章中巧用H3 H4标签，显示的特殊效果</a></h2>
-						<p><span><a href="http://wz01.hnysnet.com/category-4.html" title="主题更新记录">主题更新记录</a></span><span>时间：2年前</span><span>阅读：944</span><span class="iconfont">&#xe610;&nbsp;1条回答</span></p>
-					</li>
-					<li>
-						<h2><a href="http://wz01.hnysnet.com/post/43.html" title="2019年12月9日显示的内容|可以在分类列表前面显示当前分类的摘要内容">2019年12月9日显示的内容|可以在分类列表前面显示当前分类的摘要内容</a></h2>
-						<p><span><a href="http://wz01.hnysnet.com/category-4.html" title="主题更新记录">主题更新记录</a></span><span>时间：2年前</span><span>阅读：698</span><span class="iconfont">&#xe610;&nbsp;0条回答</span></p>
-					</li>
-					<li>
-						<h2><a href="http://wz01.hnysnet.com/post/40.html" title="2019年11月12日更新内容|优化了文章页图片自适应">2019年11月12日更新内容|优化了文章页图片自适应</a></h2>
-						<p><span><a href="http://wz01.hnysnet.com/category-4.html" title="主题更新记录">主题更新记录</a></span><span>时间：2年前</span><span>阅读：680</span><span class="iconfont">&#xe610;&nbsp;3条回答</span></p>
-					</li>
-					<li>
-						<h2><a href="http://wz01.hnysnet.com/post/38.html" title="测试一下这个站">测试一下这个站</a></h2>
-						<p><span><a href="http://wz01.hnysnet.com/category-1.html" title="在家赚钱方法">在家赚钱方法</a></span><span>时间：2年前</span><span>阅读：853</span><span class="iconfont">&#xe610;&nbsp;2条回答</span></p>
-					</li>
-					<li>
-						<h2><a href="http://wz01.hnysnet.com/post/37.html" title="2019年11月8日更新记录|优化主题样式、新增热门标签和自定义模块">2019年11月8日更新记录|优化主题样式、新增热门标签和自定义模块</a></h2>
-						<p><span><a href="http://wz01.hnysnet.com/category-4.html" title="主题更新记录">主题更新记录</a></span><span>时间：2年前</span><span>阅读：748</span><span class="iconfont">&#xe610;&nbsp;0条回答</span></p>
-					</li>
-					<li>
-						<h2><a href="http://wz01.hnysnet.com/post/34.html" title="2019年10月24日更新内容|新增“我要提问”模块，可以实现游客免登陆在线提问">2019年10月24日更新内容|新增“我要提问”模块，可以实现游客免登陆在线提问</a></h2>
-						<p><span><a href="http://wz01.hnysnet.com/category-4.html" title="主题更新记录">主题更新记录</a></span><span>时间：2年前</span><span>阅读：581</span><span class="iconfont">&#xe610;&nbsp;0条回答</span></p>
-					</li>
-					<li>
-						<h2><a href="http://wz01.hnysnet.com/post/36.html" title="2019年10月27日更新内容|新增了“大气蓝”主题样式">2019年10月27日更新内容|新增了“大气蓝”主题样式</a></h2>
-						<p><span><a href="http://wz01.hnysnet.com/category-4.html" title="主题更新记录">主题更新记录</a></span><span>时间：2年前</span><span>阅读：622</span><span class="iconfont">&#xe610;&nbsp;0条回答</span></p>
-					</li>
-					<li>
-						<h2><a href="http://wz01.hnysnet.com/post/26.html" title="在家如何上网找赚钱的项目？">在家如何上网找赚钱的项目？</a></h2>
-						<p><span><a href="http://wz01.hnysnet.com/category-1.html" title="在家赚钱方法">在家赚钱方法</a></span><span>时间：2年前</span><span>阅读：1574</span><span class="iconfont">&#xe610;&nbsp;16条回答</span></p>
-					</li>
+					{/foreach}
 				</ul>
-
-				<div class="pagebar"> <a href="http://wz01.hnysnet.com/"><span class="page">‹‹</span></a>
-					<span class="page now-page">1</span>
-					<a href="http://wz01.hnysnet.com/page_2.html"><span class="page">2</span></a>
-					<a href="http://wz01.hnysnet.com/page_3.html"><span class="page">3</span></a>
-					<a href="http://wz01.hnysnet.com/page_4.html"><span class="page">4</span></a>
-					<a href="http://wz01.hnysnet.com/page_2.html"><span class="page">›</span></a>
-					<a href="http://wz01.hnysnet.com/page_4.html"><span class="page">››</span></a>
-				</div>
 			</div>
 		</div>
 		<!--右侧栏-->

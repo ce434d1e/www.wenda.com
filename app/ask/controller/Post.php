@@ -3,6 +3,7 @@ namespace app\ask\controller;
 use think\facade\View;
 use app\common\model\Post as mPost;
 use app\common\model\Comment as mComment;
+use app\ask\controller\Right as cRight;
 
 class Post{
     public function index($id){
@@ -19,9 +20,17 @@ class Post{
         $mComment=new mComment();
         $comment_list=$mComment->getCommentChildList(['comment_post_id'=>$id],['pages'=>1]);
 
+        //标签处理
+        $cRight=new cRight();
+        $post_tags_list=$cRight->postRelated($post['post_tags']);
+
+        //增加一个浏览量
+        $mPost->where(['post_id'=>$id])->inc('post_view')->update();
+
         View::assign([
             'post'  => $post,
-            'comment_list'=>$comment_list
+            'comment_list'=>$comment_list,
+            'post_tags_list'=>$post_tags_list,
         ]);
 
         return view();

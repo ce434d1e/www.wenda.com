@@ -2,10 +2,12 @@
 namespace app\ask\controller;
 use think\facade\View;
 use think\facade\Request;
+use think\facade\Db;
 use app\common\model\User as mUser;
 use app\common\validate\Post as vPost;
 use app\common\model\Post as mPost;
 use app\common\model\Comment as mComment;
+use app\common\lib\Tags as lTags;
 
 class Add{
     protected $middleware = [
@@ -26,6 +28,7 @@ class Add{
             $data['post_comment'] = 0;
             $data['post_zan'] = 0;
             $data['post_status'] = 0;
+            $data['post_tags']='';
 
             //向数据库中随机获取小号ID
             $mUser = new mUser();
@@ -46,10 +49,19 @@ class Add{
             if($has_title){
                 return $this->error('禁止发布相同标题');
             }
+
+            //获取标题中的tags
+            $lTags=new lTags();
+            $data['post_tags']=$lTags->getArticleTags(['text'=>$data['post_title']]);
             
             $res = $mPost->insert($data);
 
             if ($res) {
+                //为当前此标签增加一个文章次数
+                foreach (array_filter(explode(',',$data['post_tags'])) as $key => $value) {
+                    Db::name("tags")->where(['tags_id'=>$value])->inc('tags_post_count')->update();
+                }
+
                 return $this->error('发布成功',"/ask/{$res}.html");
             }else{
                 return $this->error('发布失败');
@@ -73,6 +85,8 @@ class Add{
         $comment_res=$mComment->insert($data);
 
         if ($comment_res) {
+            $mPost=new mPost();
+            $mPost->where(['post_id'=>$data['comment_post_id']])->save(['post_status'=>1]);
             return $this->error('发布成功',"/ask/{$data['comment_post_id']}.html");
         }else{
             return $this->error('发布失败');

@@ -2,6 +2,7 @@
 namespace app\common\model;
 use think\model as Models;
 use think\model\concern\SoftDelete;
+use app\common\lib\Tags as lTags;
 
 class Model extends Models
 {
@@ -33,6 +34,7 @@ class Model extends Models
         'like_created_times',
         'like_update_times',
         'like_delete_times',
+        'delete_time',
 	];
 
     //时间统一获取器
@@ -57,7 +59,13 @@ class Model extends Models
 
     //文章tags标签换成数组
     public function getPostTagsAttr($value){
+        $lTags=new lTags();
+        $tags_list=$lTags->getTagsLis($value);
         $tags=array_filter(explode(",",$value));
-        return $tags;
+        return [
+            'value'=>$value,
+            'list'=>$tags_list,
+            'array'=>$tags,
+        ];
     }
 }

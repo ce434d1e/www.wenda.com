@@ -18,6 +18,7 @@ class Tags{
     }
 
     public function add(){
+
         if (Request::instance()->isPost()){
             $list=array_filter(explode("\n",input("post.list")));
 
@@ -45,6 +46,11 @@ class Tags{
                     }
                 }
             }
+
+            //将数据中所有数据写入到缓存中
+            $tags_list_all=$mTags->select()->toArray();
+            cache("tags_list_db",$tags_list_all);
+
             $this->success("成功添加{$n}标签");
         }else{
             return View::fetch();

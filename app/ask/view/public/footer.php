@@ -1,6 +1,6 @@
 <div class="clear"></div>
 <footer class="footer">
-  <div class="mw1024">
-    <p>Copyright Your WebSite.Some Rights Reserved.&nbsp;&nbsp;Powered By <a href="https://www.zblogcn.com/" title="Z-BlogPHP 1.6.7 Valyria Build 162160" target="_blank">Z-BlogPHP 1.6.7 Valyria</a></p>
-  </div>
+	<div class="mw1024">
+		<p>Copyright {$_SERVER['HTTP_HOST']} Rights Reserved &nbsp;&nbsp;本站所有内容全部手动原创，请不要抄袭转载！</p>
+	</div>
 </footer>
