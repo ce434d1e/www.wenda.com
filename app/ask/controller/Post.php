@@ -31,6 +31,8 @@ class Post{
             'post'  => $post,
             'comment_list'=>$comment_list,
             'post_tags_list'=>$post_tags_list,
+            'title'=>$post['post_title'],
+            'keywords'=>implode(",",array_column($post['post_tags']['list'],'tags_name')),
         ]);
 
         return view();

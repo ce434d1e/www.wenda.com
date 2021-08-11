@@ -19,3 +19,27 @@ function diyDate($timestamp){
         return $diff . " " . $strTime[$i] . "前";
     }
 }
+
+//判断是否从相关搜索引擎来的
+function isSearchEngine() {
+    if(empty($_SERVER['HTTP_REFERER'])){
+        return false;
+    }
+    $url=$_SERVER['HTTP_REFERER'];
+
+    $url_info=parse_url($url);
+
+    $host_list=[
+        'baidu.com',
+        'sogou.com',
+        'google.com',
+        'sm.cn',
+    ];
+
+    foreach ($host_list as $key => $value) {
+        if(strpos($url_info['host'],$value)!==false){
+            return true;
+        }
+    }
+    return false;
+}

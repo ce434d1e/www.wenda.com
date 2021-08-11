@@ -19,7 +19,10 @@ class Tags{
         $lists=$mPost->where([['post_title','like',"%".$tags[0]['tags_name']."%"]])->limit(10)->select()->toArray();
 
         View::assign([
+            'tags'=>$tags[0],
             'lists'  => $lists,
+            'title'=>"关于{$tags[0]['tags_name']}的所有问答 - ".config("seo.name"),
+            'keywords'=>$tags[0]['tags_name'],
         ]);
 
         return view('ask@index/index');

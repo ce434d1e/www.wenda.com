@@ -6,11 +6,11 @@ Route::pattern([
     'id'    =>  '\d+',
 ]);
 
-Route::get('/',"index");
-Route::get('<id>',"post/index");
-Route::get('unanswered',"index/unanswered");
-Route::get('tags/<id>',"tags/index");
-Route::get('rand',"index/unanswered");
+// Route::get('/',"index")->ext("html");
+Route::get('<id>',"post/index")->ext("html");
+Route::get('unanswered',"index/unanswered")->ext("html");
+Route::get('tags/<id>',"tags/index")->ext("html");
+Route::get('rand',"index/unanswered")->ext("html");
 
-Route::rule('/add',"add/post","GET|POST");
-Route::post('add/comment',"add/comment");
+Route::rule('/add',"add/post","GET|POST")->ext("html");
+Route::post('add/comment',"add/comment")->ext("html");

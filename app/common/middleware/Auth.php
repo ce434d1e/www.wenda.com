@@ -24,6 +24,9 @@ class Auth{
                 $_SERVER['user']=$user_res;
             }
         }
+
+        $_SERVER['isSearchEngine']=isSearchEngine();
+
         return $next($request);
     }
 }

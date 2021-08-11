@@ -12,6 +12,9 @@ class Index{
 
         View::assign([
             'lists'  => $lists,
+            'title'=>config("seo.title"),
+            'keywords'=>config("seo.keywords"),
+            'description'=>config("seo.description"),
         ]);
 
         return view('ask@index/index');
