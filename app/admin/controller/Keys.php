@@ -2,6 +2,7 @@
 namespace app\admin\controller;
 use think\facade\View;
 use think\facade\Db;
+use think\facade\Request;
 
 class Keys{
     public function index(){
@@ -15,8 +16,106 @@ class Keys{
         }
     }
 
-    public function inits(){
+    //允许词
+    public function allow(){
+        if (Request::instance()->isPost()){
+            $add=input("post.add");
+            if($add){
+                //判断是否有这个关键词
+                $count=Db::name("keys_ci")->where(['kc_name'=>$add])->count();
+                if(!$count){
+                    $res=Db::name("keys_ci")->save(['kc_name'=>$add,'kc_type'=>1]);
+                    //删除数据库中所有的带此关键词的数据
+                    Db::name("keys")->where([['keys_name','like',"%{$add}%"]])->delete();
+                }
+                $this->updateKeysKc();
+                return header("location:/admin/keys/allow");
+            }else{
+                echo '错误';
+            }
+        }else{
+            $search=input("get.search",'');
+            if($search){
+                $where=['kc_name'=>$search];
+            }else{
+                $where=[];
+            }
 
+            $list=Db::name("keys_ci")->where(['kc_type'=>1])->where($where)->select()->toArray();
+            View::assign('list', $list);
+            return View::fetch();
+        }
+    }//禁用词
+    public function prohibit(){
+        if (Request::instance()->isPost()){
+            $add=input("post.add");
+            if($add){
+                //判断是否有这个关键词
+                $count=Db::name("keys_ci")->where(['kc_name'=>$add])->count();
+                if(!$count){
+                    $res=Db::name("keys_ci")->save(['kc_name'=>$add,'kc_type'=>2]);
+                    //删除数据库中所有的带此关键词的数据
+                    Db::name("keys")->where([['keys_name','like',"%{$add}%"]])->delete();
+                }
+                $this->updateKeysKc();
+                return header("location:/admin/keys/prohibit");
+            }else{
+                echo '错误';
+            }
+        }else{
+            $search=input("get.search",'');
+            if($search){
+                $where=['kc_name'=>$search];
+            }else{
+                $where=[];
+            }
+
+            $list=Db::name("keys_ci")->where(['kc_type'=>2])->where($where)->select()->toArray();
+            View::assign('list', $list);
+            return View::fetch();
+        }
+    }
+
+    public function updateKeysKc(){
+        $allow_list=Db::name("keys_ci")->where(['kc_type'=>1])->select()->toArray();
+        $prohibit_list=Db::name("keys_ci")->where(['kc_type'=>2])->select()->toArray();
+        $allow_list_new=array_column($allow_list,"keys_name");
+        $prohibit_list_new=array_column($prohibit_list,"kc_name");
+        
+        cache("allow_list",$allow_list_new);
+        cache("prohibit_list",$prohibit_list_new);
+    }
+
+    public function id($id){
+        $delete=input("get.delete");
+        $type=input("get.type");
+        if($delete=='1'){
+            $res=Db::name("keys_ci")->where(['kc_id'=>$id])->delete();
+            if($res){
+                if($type=='1'){
+                    $u='/admin/keys/allow';
+                }
+                if($type=='2'){
+                    $u='/admin/keys/prohibit';
+                }
+                $this->updateKeysKc();
+                header("location:".$u);
+            }else{
+                echo '删除失败';
+            }
+        }else{
+            $ck=Db::name("keys_ci")->where(['kc_id'=>$id])->select()->toArray();
+            if(!count($ck)){
+                echo '关键词不存在';
+                exit;
+            }
+            echo "当前关键词：{$ck[0]['kc_name']}";
+            echo "<br><br>";
+            echo "<a href='/admin/keys/{$id}.html?delete=1&type={$ck[0]['kc_type']}'>删除关键词</a>";
+        }
+    }
+
+    public function inits(){
         //获取关键词
         $keys=Db::name("keys")->order("keys_update_times asc")->limit(1)->select()->toArray();
 

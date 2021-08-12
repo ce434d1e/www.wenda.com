@@ -9,4 +9,6 @@ Route::rule('tags/<id>',"tags/edit","GET|POST");
 
 Route::get('keys',"keys/index");
 Route::get('keys/inits',"keys/inits");
-Route::get('keys/lists',"keys/lists");
+Route::rule('keys/prohibit',"keys/prohibit","GET|POST");
+Route::rule('keys/allow',"keys/allow",'GET|POST');
+Route::rule('keys/<id>',"keys/id",'GET|POST');
