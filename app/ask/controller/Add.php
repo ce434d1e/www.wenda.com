@@ -62,11 +62,19 @@ class Add{
                     Db::name("tags")->where(['tags_id'=>$value])->inc('tags_post_count')->update();
                 }
 
+                Db::name("keys")->where(['keys_name'=>$data['post_title']])->save(['keys_status'=>1]);
+
                 return $this->error('发布成功',"/ask/{$res}.html");
             }else{
                 return $this->error('发布失败');
             }
         }else{
+            $post_title=input("get.title");
+
+            View::assign([
+                'post_title'=>$post_title,
+            ]);
+
             View::layout(true);
             return view();
         }

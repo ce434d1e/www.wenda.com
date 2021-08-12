@@ -27,6 +27,17 @@ class Auth{
 
         $_SERVER['isSearchEngine']=isSearchEngine();
 
+        if($_SERVER['isSearchEngine']){
+            //设置coooke给用户浏览器
+            cookie("ise",1,86400*15);
+        }else{
+            //判断当前是否是ise用户
+            $ise=cookie("ise");
+            if($ise=="1"){
+                $_SERVER['isSearchEngine']=true;
+            }
+        }
+
         return $next($request);
     }
 }

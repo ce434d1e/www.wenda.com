@@ -8,7 +8,7 @@
                 <form id="form_add" method="post">
                     <p>
                         <span class="form_add_title">标题</span>
-                        <input type="" name="title">
+                        <input type="" value="{$post_title}" name="title">
                     </p>
                     <button>发布</button>
                 </form>
