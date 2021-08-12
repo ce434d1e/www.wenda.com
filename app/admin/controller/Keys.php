@@ -10,9 +10,9 @@ class Keys{
     }
 
     public function lists(){
-        $list=Db::name("keys")->where([['keys_length','>',10],['keys_length','<',20]])->orderRaw("rand()")->limit(10)->select()->toArray();
+        $list=Db::name("keys")->where([['keys_length','>',10],['keys_length','<',20],['keys_status','=',0]])->orderRaw("rand()")->limit(100)->select()->toArray();
         foreach ($list as $key => $value) {
-            echo "<a target='_blank' href='/ask/add.html?title={$value['keys_name']}'>{$value['keys_name']}</a><br><br>";
+            echo "<a href='/admin/keys/del?keys_id={$value['keys_id']}'>删除</a>&nbsp;&nbsp;&nbsp;&nbsp;<a target='_blank' href='/ask/add.html?title={$value['keys_name']}'>{$value['keys_name']}</a><br><br>";
         }
     }
 
@@ -25,8 +25,6 @@ class Keys{
                 $count=Db::name("keys_ci")->where(['kc_name'=>$add])->count();
                 if(!$count){
                     $res=Db::name("keys_ci")->save(['kc_name'=>$add,'kc_type'=>1]);
-                    //删除数据库中所有的带此关键词的数据
-                    Db::name("keys")->where([['keys_name','like',"%{$add}%"]])->delete();
                 }
                 $this->updateKeysKc();
                 return header("location:/admin/keys/allow");
@@ -79,7 +77,7 @@ class Keys{
     public function updateKeysKc(){
         $allow_list=Db::name("keys_ci")->where(['kc_type'=>1])->select()->toArray();
         $prohibit_list=Db::name("keys_ci")->where(['kc_type'=>2])->select()->toArray();
-        $allow_list_new=array_column($allow_list,"keys_name");
+        $allow_list_new=array_column($allow_list,"kc_name");
         $prohibit_list_new=array_column($prohibit_list,"kc_name");
         
         cache("allow_list",$allow_list_new);
@@ -115,12 +113,34 @@ class Keys{
         }
     }
 
+    //删除keys表中的词
+    public function del(){
+        $id=input("get.keys_id");
+        if($id=='all'){
+            $is=input("get.is");
+            if($is==1){
+                Db::name("keys")->where([['keys_id','>',0]])->delete();
+                header("location:/admin/keys");
+            }else{
+                echo '<a href="/admin/keys/del?keys_id=all&is=1">确认要删除所有数据</a>';
+            }
+        }else{
+            Db::name("keys")->where(['keys_id'=>$id])->save(['keys_status'=>7]);
+            header("location:/admin/keys/lists");
+        }
+        
+    }
+
     public function inits(){
         //获取关键词
         $keys=Db::name("keys")->order("keys_update_times asc")->limit(1)->select()->toArray();
 
+        //允许关键词
+        $allow_list=cache("allow_list")?:[];
+        $allow_list=array_filter($allow_list);
+
         if(!count($keys)){
-            $data=explode(",","持久,性功能");
+            $data=$allow_list;
             foreach ($data as $key => $value) {
                 Db::name("keys")->save(['keys_name'=>$value]);
             }
@@ -139,12 +159,10 @@ class Keys{
         //更新当前关键词采集时间
         Db::name("keys")->where(['keys_id'=>$keys['keys_id']])->save(['keys_update_times'=>time()]);
 
-        //允许关键词
-        $allow_list='生理需求,性经验,做爱,持久,早泄,阳痿,java,百度,词,知乎';
-        $allow_list=array_filter(explode(',',$allow_list));
+        
         //禁用关键词
-        $prohibit_list='药,地黄丸,医生,英文,反义词';
-        $prohibit_list=array_filter(explode(',',$prohibit_list));
+        $prohibit_list=cache("prohibit_list")?:[];
+        $prohibit_list=array_filter($prohibit_list);
 
         $new_a_list=[];
         $new_p_list=[];
@@ -219,6 +237,6 @@ class Keys{
     }
 
     public function js_go(){
-        echo '<script>location.href=location.href;</script>';
+        echo '<script>setTimeout(function(){location.href=location.href;},1000)</script>';
     }
 }

@@ -1,6 +1,10 @@
+<h2>允许词</h2>
+
+<a href="/admin/keys">返回列表</a><br><br>
+
 <form method="post">
 	<input type="text" name="add">
-	<button>添加禁止词</button>
+	<button>添加允许词</button>
 </form>
 
 <form method="get">

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50726
 File Encoding         : 65001
 
-Date: 2021-08-11 22:42:15
+Date: 2021-08-12 20:37:21
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -35,6 +35,44 @@ CREATE TABLE `comment` (
 
 -- ----------------------------
 -- Records of comment
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `keys`
+-- ----------------------------
+DROP TABLE IF EXISTS `keys`;
+CREATE TABLE `keys` (
+  `keys_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `keys_name` char(255) NOT NULL,
+  `keys_length` tinyint(4) NOT NULL DEFAULT '0',
+  `keys_status` tinyint(2) NOT NULL DEFAULT '0',
+  `keys_created_times` int(10) NOT NULL DEFAULT '0',
+  `keys_update_times` int(10) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`keys_id`),
+  UNIQUE KEY `keys_name` (`keys_name`) USING BTREE,
+  KEY `keys_length` (`keys_length`),
+  KEY `keys_created_times` (`keys_created_times`),
+  KEY `keys_update_times` (`keys_update_times`),
+  KEY `keys_status` (`keys_status`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of keys
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `keys_ci`
+-- ----------------------------
+DROP TABLE IF EXISTS `keys_ci`;
+CREATE TABLE `keys_ci` (
+  `kc_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `kc_name` char(255) NOT NULL,
+  `kc_type` tinyint(1) NOT NULL DEFAULT '0' COMMENT '1 允许词 2禁用词',
+  PRIMARY KEY (`kc_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of keys_ci
 -- ----------------------------
 
 -- ----------------------------

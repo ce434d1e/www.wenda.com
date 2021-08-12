@@ -1,3 +1,7 @@
+<h2>禁用词</h2>
+
+<a href="/admin/keys">返回列表</a><br><br>
+
 <form method="post">
 	<input type="text" name="add">
 	<button>添加禁止词</button>
