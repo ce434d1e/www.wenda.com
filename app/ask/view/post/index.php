@@ -1,4 +1,4 @@
-{layout name="layout\layout" /}
+{layout name="layout/layout" /}
 <?php
 $rightController = new app\ask\controller\Right;
 $postRelated = $rightController->postRelated($post['post_tags']);
@@ -28,7 +28,7 @@ $postRelated = $rightController->postRelated($post['post_tags']);
 
 			{if condition="$_SERVER['user_id']"}
 			<link rel="stylesheet" type="text/css" href="/public/ask/css/add.css">
-			<form id="form_add" style="padding: 0px;" method="post" action="/ask/add/comment">
+			<form id="form_add" style="padding: 0px;" method="post" action="/ask/add/comment.html">
 				<input type="hidden" name="comment_post_id" value="{$post.post_id}">
 				<textarea style="min-height: 200px;" name="comment_body"></textarea>
 				<br>

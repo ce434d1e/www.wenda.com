@@ -1,5 +1,5 @@
 <?php
 return [
     'layout_on'     =>  false,
-    'layout_name'   =>  'layout\layout',
+    'layout_name'   =>  'layout/layout',
 ];

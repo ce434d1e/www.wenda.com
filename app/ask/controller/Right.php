@@ -29,7 +29,7 @@ class Right{
 
         $mPost=new mPost();
 
-        $list=$mPost->whereOr($data)->limit(10)->select()->toArray();
+        $list=$mPost->where(['post_status'=>1])->whereOr($data)->limit(10)->select()->toArray();
 
         return $list;
     }

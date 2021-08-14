@@ -1,4 +1,4 @@
 <?php
 return [
-    app\common\middleware\Auth::class,
+    app\common\middleware\Login::class,
 ];

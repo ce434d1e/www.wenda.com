@@ -18,19 +18,17 @@
             <div class="logo">
                 <a href="/">{:config("seo.name")}</a>
             </div>
-            <div class="nav">
+            <div class="nav"{if condition="$_SERVER['user_id']"} style="display:block;"{/if}>
                 <ul>
                     <li><a href="/">首页</a></li>
                     <li><a href="/ask/rand.html">随机问答</a></li>
-                </ul>
                 {if condition="$_SERVER['user_id']"}
-                <ul>
                     <li><a href="/ask/unanswered.html">未回复</a></li>
                     <li><a href="/ask/add.html">发布</a></li>
-                </ul>
                 {else /}
                 
                 {/if}
+                </ul>
             </div>
         </div>
     </header>

@@ -1,4 +1,4 @@
-{layout name="layout\layout" /}
+{layout name="layout/layout" /}
 <link rel="stylesheet" type="text/css" href="/public/ask/css/add.css">
 <div class="clear"></div>
 <div class="main">

@@ -1,4 +1,4 @@
-{layout name="layout\layout" /}
+{layout name="layout/layout" /}
 
 <div class="clear"></div>
 

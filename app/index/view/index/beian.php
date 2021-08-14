@@ -59,6 +59,7 @@ a:hover {text-decoration:underline;}
 			<div class="title">记录生活点点滴滴</div>
 			<div class="content">
 				<p>希望在这里能记录点点滴滴，目前还正在建设当中！</p>
+				<p><a href='https://beian.miit.gov.cn/'>豫ICP备17017478号</a></p>
 			</div>
 		</div>
 	</div>
